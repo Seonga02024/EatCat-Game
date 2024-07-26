@@ -5,7 +5,7 @@ using UnityEngine;
 public class CS_moveFood : MonoBehaviour
 {
     public bool isMove = false; // 이동 여부를 결정하는 변수
-    private float speed = 60f; // 이동 속도
+    private float speed = 100f; // 이동 속도
     private int score = 10;
     public Transform endPoint;
 
