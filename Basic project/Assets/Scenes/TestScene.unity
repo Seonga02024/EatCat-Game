@@ -571,6 +571,54 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &170435009
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 170435010}
+  - component: {fileID: 170435011}
+  m_Layer: 5
+  m_Name: TouchPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &170435010
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170435009}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 820712243}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &170435011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170435009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81fe6e5b71c5c604082ca750eb655ea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &230386336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,6 +1363,7 @@ RectTransform:
   m_Children:
   - {fileID: 1836188326}
   - {fileID: 1312465106}
+  - {fileID: 170435010}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1741,7 +1790,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1022978314}
   - component: {fileID: 1022978313}
-  - component: {fileID: 1022978315}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1764,7 +1812,7 @@ MonoBehaviour:
   foodStartPoint: {fileID: 33870892}
   foodEndPoint: {fileID: 1825429029}
   foodPrefab1: {fileID: 3815672555040673234, guid: be1284bf8a960c145b4cf76395f38abc, type: 3}
-  foodPrefab2: {fileID: 1667705262722047417, guid: ba1ccfcd6c072ad4bbabf2f96b9479fe, type: 3}
+  foodPrefab2: {fileID: 6380004145026606421, guid: 5cd7ae134a9053147a204aae57eeab7b, type: 3}
 --- !u!4 &1022978314
 Transform:
   m_ObjectHideFlags: 0
@@ -1780,28 +1828,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1022978315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1022978312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 0
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 1
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &1085198107
 GameObject:
   m_ObjectHideFlags: 0
@@ -2249,6 +2275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65091b7b73dd56a4cb675ba6ea960c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 0}
 --- !u!50 &1396757721
 Rigidbody2D:
   serializedVersion: 4
@@ -2313,6 +2340,82 @@ RectTransform:
   m_AnchoredPosition: {x: 351, y: -259}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1476584090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1476584093}
+  - component: {fileID: 1476584092}
+  - component: {fileID: 1476584091}
+  m_Layer: 0
+  m_Name: MTGameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1476584091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476584090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 1476584092}
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &1476584092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476584090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1024704dc59e51b4b8ec74474cc41f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodStartPoint: {fileID: 33870892}
+  foodEndPoint: {fileID: 1825429029}
+  foodCheckCS: {fileID: 1396757720}
+  foodPrefab:
+  - {fileID: 3815672555040673234, guid: be1284bf8a960c145b4cf76395f38abc, type: 3}
+  - {fileID: 1667705262722047417, guid: ba1ccfcd6c072ad4bbabf2f96b9479fe, type: 3}
+  - {fileID: 6380004145026606421, guid: 5cd7ae134a9053147a204aae57eeab7b, type: 3}
+  PV: {fileID: 1476584091}
+--- !u!4 &1476584093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476584090}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 263.8844, y: 1649.7592, z: -13.994387}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1539270372
 GameObject:
   m_ObjectHideFlags: 0
@@ -2678,6 +2781,7 @@ MonoBehaviour:
   DisconnectPanel: {fileID: 1312465105}
   RespawnPanel: {fileID: 1312465105}
   testText: {fileID: 500695228}
+  isHost: 0
 --- !u!1 &1967539543
 GameObject:
   m_ObjectHideFlags: 0
@@ -2760,6 +2864,7 @@ SceneRoots:
   - {fileID: 459827707}
   - {fileID: 843222735}
   - {fileID: 85670650}
+  - {fileID: 1476584093}
   - {fileID: 1022978314}
   - {fileID: 1539270374}
   - {fileID: 936514495}

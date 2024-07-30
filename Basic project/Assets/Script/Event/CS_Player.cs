@@ -9,7 +9,7 @@ using TMPro;
 public class CS_Player : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private Image spriteRenderer;
+    [SerializeField] private Image image;
     [SerializeField] private PhotonView PV;
     [SerializeField] private TextMeshProUGUI nickNameTxt;
 
@@ -27,6 +27,25 @@ public class CS_Player : MonoBehaviourPunCallbacks, IPunObservable
         nickNameTxt.text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
         this.transform.parent = RespawnPos.transform;
         this.transform.position = PV.IsMine ? RespawnPos1.transform.position : RespawnPos2.transform.position;
+        if(PV.IsMine == false){
+            Vector3 scale = image.rectTransform.localScale;
+            scale.x = -1; // Flip the X axis
+            image.rectTransform.localScale = scale;
+
+            Vector3 textScale = nickNameTxt.rectTransform.localScale;
+            textScale.x = -1; // Flip the X axis for the text to keep it normal
+            nickNameTxt.rectTransform.localScale = textScale;
+        }else{
+            Vector3 scale = image.rectTransform.localScale;
+            scale.x = 1; // Flip the X axis
+            image.rectTransform.localScale = scale;
+
+            Vector3 textScale = nickNameTxt.rectTransform.localScale;
+            textScale.x *= 1; // Flip the X axis for the text to keep it normal
+            nickNameTxt.rectTransform.localScale = textScale;
+
+            CS_MTGameManager.Instance.MyPlayerCS = this;
+        }
     }
 
     // 변수 동기화 진행
@@ -34,15 +53,13 @@ public class CS_Player : MonoBehaviourPunCallbacks, IPunObservable
         //throw new System.NotImplementedException();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public void playEatAnimation(){
+        Debug.Log("playEatAnimation");
+        animator.SetBool("isEat", true);
+        Invoke("StopAnimation", 2);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void StopAnimation(){
+        animator.SetBool("isEat", false);
     }
 }

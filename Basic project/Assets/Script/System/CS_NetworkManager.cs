@@ -11,7 +11,8 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
     private TMP_InputField NickNameInput;
     [SerializeField] private GameObject DisconnectPanel;
     [SerializeField] private GameObject RespawnPanel;
-    [SerializeField] private TMP_Text testText;
+    [SerializeField] public TMP_Text testText;
+    public bool isHost = false;
 
     void Awake(){
         Screen.SetResolution(1080, 1920, false);
@@ -19,6 +20,16 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "us"; // 예: us, eu 등
+
+        if (_instance == null)
+        {
+            _instance = this as CS_NetworkManager;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Connet() => PhotonNetwork.ConnectUsingSettings(); // 서버 바로 연결 시도
@@ -35,7 +46,7 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message) {
         // 랜덤으로 방에 참여 실패시 만들기
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 3 }, null);
+        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2 }, null);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList) {
@@ -50,6 +61,7 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
         }
         // 원하는 방이 없으면 새로운 방 생성
         PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 3 }, null);
+        isHost = true;
     }
 
     public override void OnJoinedRoom(){
@@ -87,6 +99,30 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
         // 서버 연결이 끊어 졌을 때 호출되는 함수
         DisconnectPanel?.SetActive(true);
         RespawnPanel?.SetActive(false);
+    }
+
+    private static CS_NetworkManager _instance;
+
+    public static CS_NetworkManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<CS_NetworkManager>();
+
+                if (_instance == null)
+                {
+                    GameObject singletonObject = new GameObject();
+                    _instance = singletonObject.AddComponent<CS_NetworkManager>();
+                    singletonObject.name = typeof(CS_NetworkManager).ToString() + " (Singleton)";
+
+                    DontDestroyOnLoad(singletonObject);
+                }
+            }
+
+            return _instance;
+        }
     }
 
 }
