@@ -135,9 +135,9 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         if(currentCorrectFoodIndex == foodCheckCS.CurrentFoodIndex){
             // 점수 얻기
             //PV.RPC("GetScore", RpcTarget.All, 2);
-            CS_NetworkManager.Instance.testText.text = "CorrectFood";
+            CS_NetworkManager.Instance.testText.text = "CorrectFood" + currentCorrectFoodIndex + " " + foodCheckCS.CurrentFoodIndex;
         }else{
-            CS_NetworkManager.Instance.testText.text = "UnCorrectFood";
+            CS_NetworkManager.Instance.testText.text = "UnCorrectFood" + currentCorrectFoodIndex + " " + foodCheckCS.CurrentFoodIndex;
         }
     }
 

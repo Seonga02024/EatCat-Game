@@ -6,19 +6,20 @@ using Photon.Realtime;
 
 public class CS_FoodCheck : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private PhotonView PV;
+    [SerializeField] private Vector2 myCatPos;
+    [SerializeField] private Vector2 otherCatPas;
     private GameObject currentCollFood;
     private int currentFoodIndex = -1;
     public int CurrentFoodIndex { get { return currentFoodIndex; } }
 
     public void MoveFoodToCat(bool isMyEat){
+        Debug.Log("MoveFoodToCat");
         if(currentCollFood != null){
+            Debug.Log("change MoveFoodToCat");
             CS_moveFood moveFoodCS = currentCollFood.GetComponent<CS_moveFood>();
             moveFoodCS.IsEat = true;
-            moveFoodCS.IsMyEat = isMyEat;
-            // if(currentFoodIndex == CS_GameManager.Instance.GetCurrentCorrectFoodIndex()){
-            //     PV.RPC("GetScore", RpcTarget.All, 2);
-            // }
+            if(isMyEat) moveFoodCS.TargetPosition = myCatPos;
+            else moveFoodCS.TargetPosition = otherCatPas;
         }
     }
 

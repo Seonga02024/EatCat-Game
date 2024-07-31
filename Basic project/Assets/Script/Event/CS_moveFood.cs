@@ -14,8 +14,8 @@ public class CS_moveFood : MonoBehaviour
     public Transform EndPoint { get { return endPoint; } set { endPoint = value; } }
     [SerializeField] private bool isEat = false; 
     public bool IsEat { set { isEat = value; } }
-    [SerializeField] private bool isMyEat = false; 
-    public bool IsMyEat { set { isMyEat = value; } }
+    [SerializeField] private Vector2 targetPosition; 
+    public Vector2 TargetPosition { set { targetPosition = value; } }
 
     void Update()
     {
@@ -26,7 +26,21 @@ public class CS_moveFood : MonoBehaviour
         }
 
         if(isEat){
-            transform.Translate(Vector3.down * speed * Time.deltaTime);
+            // 현재 위치에서 목표 위치로의 방향을 계산합니다.
+            Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
+            
+            // 방향과 속도를 사용하여 새로운 위치를 계산합니다.
+            Vector2 newPosition = (Vector2)transform.position + direction * speed * Time.deltaTime;
+            
+            // 오브젝트를 새로운 위치로 이동시킵니다.
+            transform.position = newPosition;
+
+            // 만약 오브젝트가 목표 위치에 도달했다면 이동을 멈춥니다.
+            if (Vector2.Distance(transform.position, targetPosition) < 1f)
+            {
+                transform.position = targetPosition;
+                Destroy(gameObject);
+            }
         }
 
         // endPoint보다 밑에 있을 때 객체 제거
