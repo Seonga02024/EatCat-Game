@@ -11,15 +11,18 @@ public class CS_FoodCheck : MonoBehaviourPunCallbacks
     private GameObject currentCollFood;
     private int currentFoodIndex = -1;
     public int CurrentFoodIndex { get { return currentFoodIndex; } }
+    private bool iscurrentGet = false;
+    public bool IscurrentGet { get { return iscurrentGet; } }
 
     public void MoveFoodToCat(bool isMyEat){
-        Debug.Log("MoveFoodToCat");
+        //Debug.Log("MoveFoodToCat");
         if(currentCollFood != null){
-            Debug.Log("change MoveFoodToCat");
+            //Debug.Log("change MoveFoodToCat");
             CS_moveFood moveFoodCS = currentCollFood.GetComponent<CS_moveFood>();
             moveFoodCS.IsEat = true;
             if(isMyEat) moveFoodCS.TargetPosition = myCatPos;
             else moveFoodCS.TargetPosition = otherCatPas;
+            iscurrentGet = true;
         }
     }
 
@@ -29,6 +32,7 @@ public class CS_FoodCheck : MonoBehaviourPunCallbacks
         //Debug.Log("Trigger Enter: " + other.gameObject.name);
         currentCollFood = other.gameObject;
         currentFoodIndex = currentCollFood.GetComponent<CS_moveFood>().Index;
+        iscurrentGet = false;
     }
 
     // 트리거 내부에 있는 동안 호출되는 메서드

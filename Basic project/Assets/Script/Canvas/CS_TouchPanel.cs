@@ -58,6 +58,12 @@ public class CS_TouchPanel : MonoBehaviour
 
         }else{
             CS_MTGameManager.Instance.CheckEatCorrrectFood();
+            isEating = true;
+            Invoke("WaitEating", 3);
         }
+    }
+
+    private void WaitEating(){
+        isEating = false;
     }
 }

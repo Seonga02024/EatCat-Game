@@ -12,7 +12,6 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject DisconnectPanel;
     [SerializeField] private GameObject RespawnPanel;
     [SerializeField] public TMP_Text testText;
-    public bool isHost = false;
 
     void Awake(){
         Screen.SetResolution(1080, 1920, false);
@@ -61,7 +60,6 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
         }
         // 원하는 방이 없으면 새로운 방 생성
         PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 3 }, null);
-        isHost = true;
     }
 
     public override void OnJoinedRoom(){

@@ -32,17 +32,6 @@ public class CS_GameManager : MonoBehaviour
         StartCoroutine(ReleaseAndAddFood());
     }
 
-    void Start()
-    {
-        // 초기 큐 채우기
-        for (int i = 0; i < initialQueueSize; i++)
-        {
-            GameObject food = Instantiate(foodPrefab1, foodStartPoint);
-            food.SetActive(false);
-            foodQueue.Enqueue(food);
-        }
-    }
-
     IEnumerator ReleaseAndAddFood()
     {
         while (true)

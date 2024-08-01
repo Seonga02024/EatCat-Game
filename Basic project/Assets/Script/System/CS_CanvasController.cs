@@ -4,46 +4,35 @@ using UnityEngine;
 
 public class CS_CanvasController : SingleTon<CS_CanvasController>
 {
-    // [SerializeField]
-    // public GameObject gamePanel;
-    // private GamePanel gamePanelCS;
+    [SerializeField]
+    public GameObject gamePanel;
+    private CS_GamePanel gamePanelCS;
 
-    // [SerializeField]
-    // public GameObject gameOverPanel;
-    // private GameOverPanel gameOverPanelCS;
+    [SerializeField]
+    public GameObject touchPanel;
+    private CS_TouchPanel touchPanelCS;
 
-    
-    // // Start is called before the first frame update
-    // void Awake()
-    // {
-    //     gamePanelCS = gamePanel.GetComponent<GamePanel>();
-    //     gameOverPanelCS = gameOverPanel.GetComponent<GameOverPanel>();
-    // }
+    void Start()
+    {
+        gamePanelCS = gamePanel.GetComponent<CS_GamePanel>();
+        touchPanelCS = touchPanel.GetComponent<CS_TouchPanel>();
+    }
 
     // /// ///////////////////////////////////////////////////////////////////
-    // /// Game Panel
+    // /// Panel
 
-    // public void ChangeState(float stage){
-    //     gamePanelCS.ChangeStageText(stage);
-    // }
+    public CS_GamePanel GetGamePanel(){
+        return gamePanelCS;
+    }
 
-    // /// ///////////////////////////////////////////////////////////////////
-    // /// Game Over Panel
+    public CS_TouchPanel GetTouchPanel(){
+        return touchPanelCS;
+    }
+}
 
-    // public void OpenGameOverPanel(bool isActive){
-    //     gameOverPanelCS.openGameOverPanel(isActive);
-    // }
-
-    // public void ChangeResultScoreText(float score){
-    //     gameOverPanelCS.ChangeScoreText(score);
-    // }
-
-    // public void ChangeResultCoinText(float coin){
-    //     gameOverPanelCS.ChangeCoinText(coin);
-    // }
-
-    // public void ChangeResultStageText(float stage){
-    //     gameOverPanelCS.ChangeStageText(stage);
-    // }
-
+public interface PanelSetting
+{
+    void Init();
+    void Open();
+    void Close();
 }

@@ -1,18 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
-public class CS_GamePanel : MonoBehaviour
+public class CS_GamePanel : MonoBehaviour, PanelSetting
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    [SerializeField] private GameObject mainPanel;
+    [SerializeField] private Image currentCorrectFoodImg;
+    [SerializeField] private TMP_Text otherScore;
+    [SerializeField] private TMP_Text myScore;
+    [SerializeField] private Sprite[] foodImg;
+
+    public void ChangeCurrentCorrectFoodImg(int index){
+        currentCorrectFoodImg.sprite = foodImg[index];
+    }
+    
+    public void ChangeMyScoreText(int score){
+        myScore.text = score.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeOtherScoreText(int score){
+        otherScore.text = score.ToString();
+    }
+
+    public void Init()
     {
-        
+        currentCorrectFoodImg.sprite = null;
+        otherScore.text = "0";
+        myScore.text = "0";
+    }
+
+    public void Open()
+    {
+        mainPanel.SetActive(true);
+    }
+
+    public void Close()
+    {
+        mainPanel.SetActive(false);
     }
 }
