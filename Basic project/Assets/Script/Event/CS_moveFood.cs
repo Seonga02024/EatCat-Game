@@ -26,6 +26,7 @@ public class CS_moveFood : MonoBehaviour, IPunObservable
         this.transform.parent = GameObject.Find("FoodStartPoint").transform;
         endPoint = GameObject.Find("FoodEndPoint").transform;
         isMove = true;
+        ChangeMoveSpeed(CS_MTGameManager.Instance.CurrentFoodMoveSpeed);
     }
 
     void Update()
@@ -54,14 +55,14 @@ public class CS_moveFood : MonoBehaviour, IPunObservable
             // 만약 오브젝트가 목표 위치에 도달했다면 이동을 멈춥니다.
             if (Vector2.Distance(transform.position, targetPosition) < 1.5f)
             {
-                Destroy(gameObject);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
 
         // endPoint보다 밑에 있을 때 객체 제거
         if (endPoint != null && transform.position.y < endPoint.position.y)
         {
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 

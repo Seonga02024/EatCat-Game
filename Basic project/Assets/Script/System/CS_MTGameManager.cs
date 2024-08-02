@@ -32,6 +32,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
     private int nextStepWaitTime = 10;
     private float decrementWaitTimeStep = 0.3f;
     private int currentFoodMoveSpeed;
+    public int CurrentFoodMoveSpeed { get { return currentFoodMoveSpeed; } }
     private int maxmumFoodMoveSpeed = 200;
     private int initialFoodMoveSpeed = 100;
     private int increaseFoodMoveSpeedStep = 10;
@@ -172,6 +173,8 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
     void CurrentFoodIndex(int index, PhotonMessageInfo info) => FoodCreateAndMove(index, info);
     [PunRPC]
     void CheckMoveEatFood(int index, PhotonMessageInfo info) => MoveEatFood(index, info);
+    [PunRPC]
+    void CatGetAnimaion(PhotonMessageInfo info) => PlayCatGetAnimaion(info);
 
     private void FoodCreateAndMove(int index, PhotonMessageInfo info){
         // if(info.Sender.IsLocal){
@@ -182,16 +185,22 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         //GameObject food = Instantiate(foodPrefab[index], foodStartPoint);
         if(isHost){
             GameObject food = PhotonNetwork.Instantiate(foodPrefab[index].name, foodStartPoint.position, Quaternion.identity, 0);
-            food.GetComponent<CS_moveFood>().ChangeMoveSpeed(currentFoodMoveSpeed);
         }
     }
 
     public void CheckEatCorrrectFood(){
         Debug.Log("CheckEatCorrrectFood");
-        //if(foodCheckCS.CurrentFoodIndex >= 0){
+        if(foodCheckCS.CurrentFoodIndex >= 0){
             // 한동안 터치 못하게 막기
             photonView.RPC("CheckMoveEatFood", RpcTarget.All, 1);
-        //}
+        }
+        photonView.RPC("CatGetAnimaion", RpcTarget.All);
+    }
+
+    private void PlayCatGetAnimaion(PhotonMessageInfo info){
+        if(info.Sender.IsLocal){
+            myPlayerCS.playEatAnimation();
+        }
     }
 
     private void MoveEatFood(int index, PhotonMessageInfo info){
@@ -225,7 +234,6 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
                 //CS_NetworkManager.Instance.testText.text = "My Get" + index;
                 // 음식 움직이기
                 foodCheckCS.MoveFoodToCat(true);
-                myPlayerCS.playEatAnimation();
             }else{
                 //CS_NetworkManager.Instance.testText.text = "Other Get" + index;
                 // 음식 움직이기

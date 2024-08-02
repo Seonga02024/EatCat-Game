@@ -39,27 +39,35 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
         // player 세팅 이후 Room 을 참여하거나 만들기
         PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
         //PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 3 }, null);
-        //PhotonNetwork.JoinLobby(); // 방 목록을 가져와 방 이름을 확인
-        PhotonNetwork.JoinRandomRoom(); // 랜덤으로 방에 참여
+        PhotonNetwork.JoinLobby(); // 방 목록을 가져와 방 이름을 확인
+        //PhotonNetwork.JoinRandomRoom(); // 랜덤으로 방에 참여
     }
 
-    public override void OnJoinRandomFailed(short returnCode, string message) {
-        // 랜덤으로 방에 참여 실패시 만들기
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2 }, null);
-    }
+    // public override void OnJoinRandomFailed(short returnCode, string message) {
+    //     // 랜덤으로 방에 참여 실패시 만들기
+    //     PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2 }, null);
+    // }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList) {
-        // 방 목록을 가져와 방 이름을 확인
+        bool foundRoom = false;
+
+        // 방 목록을 순회하여 빈 방을 찾기
         foreach (RoomInfo room in roomList) {
-            Debug.Log("Room Name: " + room.Name);
-            // 원하는 방에 JoinOrCreateRoom 실행
-            if (room.Name == "Room") {
-                PhotonNetwork.JoinRoom("Room");
+            Debug.Log("Room Name: " + room.Name + " - Players: " + room.PlayerCount + "/" + room.MaxPlayers);
+
+            // 방이 비어있는 경우
+            if (room.PlayerCount < room.MaxPlayers) {
+                foundRoom = true;
+                PhotonNetwork.JoinRoom(room.Name);  // 빈 방에 입장
                 return;
             }
         }
-        // 원하는 방이 없으면 새로운 방 생성
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 3 }, null);
+
+        // 빈 방이 없으면 새로운 방 생성
+        if (!foundRoom) {
+            string roomName = "Room_" + System.DateTime.Now.Ticks;  // 고유한 방 이름 생성
+            PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = 2 });
+        }
     }
 
     public override void OnJoinedRoom(){
