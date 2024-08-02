@@ -52,7 +52,7 @@ public class CS_moveFood : MonoBehaviour, IPunObservable
             transform.position = newPosition;
 
             // 만약 오브젝트가 목표 위치에 도달했다면 이동을 멈춥니다.
-            if (Vector2.Distance(transform.position, targetPosition) < 1f)
+            if (Vector2.Distance(transform.position, targetPosition) < 1.5f)
             {
                 Destroy(gameObject);
             }
@@ -64,6 +64,10 @@ public class CS_moveFood : MonoBehaviour, IPunObservable
             Destroy(gameObject);
         }
     }
+
+     public void ChangeMoveSpeed(int changeSpeed){
+        speed = changeSpeed;
+     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

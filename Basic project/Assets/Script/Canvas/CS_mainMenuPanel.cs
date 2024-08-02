@@ -1,0 +1,77 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class CS_mainMenuPanel : MonoBehaviour, PanelSetting
+{
+    [SerializeField] private GameObject mainPanel;
+    [SerializeField] private Button soloModeBtn;
+    [SerializeField] private Button MTModeBtn;
+    [SerializeField] private Button drawStoreBtn;
+    [SerializeField] private Button storeBtn;
+    [SerializeField] private Button decorateBtn;
+    [SerializeField] private Button settingBtn;
+
+    void Start()
+    {
+        Init();
+    }
+
+    public void Init()
+    {
+        soloModeBtn.onClick.AddListener(OnSoloModeClicked);
+        MTModeBtn.onClick.AddListener(OnMTModeClicked);
+        drawStoreBtn.onClick.AddListener(OnDrawStoreClicked);
+        storeBtn.onClick.AddListener(OnStoreClicked);
+        decorateBtn.onClick.AddListener(OnDecorateClicked);
+        settingBtn.onClick.AddListener(OnSettingClicked);
+    }
+
+    public void Open()
+    {
+        mainPanel.SetActive(true);
+    }
+
+    public void Close()
+    {
+        mainPanel.SetActive(false);
+    }
+
+    private void OnSoloModeClicked()
+    {
+        Debug.Log("Solo Mode Button Clicked");
+        // Solo mode 시작 로직 추가
+    }
+
+    private void OnMTModeClicked()
+    {
+        Debug.Log("Multiplayer Mode Button Clicked");
+        // Multiplayer mode 시작 로직 추가
+    }
+
+    private void OnDrawStoreClicked()
+    {
+        Debug.Log("Draw Store Button Clicked");
+        // Draw store 로직 추가
+    }
+
+    private void OnStoreClicked()
+    {
+        Debug.Log("Store Button Clicked");
+        // Store 로직 추가
+    }
+
+    private void OnDecorateClicked()
+    {
+        Debug.Log("Decorate Button Clicked");
+        // Decorate 로직 추가
+    }
+
+    private void OnSettingClicked()
+    {
+        Debug.Log("Setting Button Clicked");
+        // Setting 로직 추가
+    }
+}

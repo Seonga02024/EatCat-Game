@@ -9,7 +9,13 @@ public class CS_TouchPanel : MonoBehaviour
 
     private void Update()
     {
-        if(CS_GameManager.Instance.IsGameStart || CS_MTGameManager.Instance.IsMTGameStart){
+        // if(CS_GameManager.Instance.IsGameStart || CS_MTGameManager.Instance.IsMTGameStart){
+        //     if(isEating == false){
+        //         CheckTouch();
+        //     }
+        // }
+
+        if(CS_MTGameManager.Instance.IsMTGameStart){
             if(isEating == false){
                 CheckTouch();
             }
@@ -54,13 +60,13 @@ public class CS_TouchPanel : MonoBehaviour
     }
 
     private void SendTouchData(bool isLeft){
-        if(CS_GameManager.Instance.IsGameStart){
+        // if(CS_GameManager.Instance.IsGameStart){
 
-        }else{
+        // }else{
             CS_MTGameManager.Instance.CheckEatCorrrectFood();
             isEating = true;
             Invoke("WaitEating", 3);
-        }
+        //}
     }
 
     private void WaitEating(){

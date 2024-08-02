@@ -12,10 +12,15 @@ public class CS_CanvasController : SingleTon<CS_CanvasController>
     public GameObject touchPanel;
     private CS_TouchPanel touchPanelCS;
 
+    [SerializeField]
+    public GameObject matchStartPanel;
+    private CS_MatchStartPanel matchStartPanelCS;
+
     void Start()
     {
         gamePanelCS = gamePanel.GetComponent<CS_GamePanel>();
         touchPanelCS = touchPanel.GetComponent<CS_TouchPanel>();
+        matchStartPanelCS = matchStartPanel.GetComponent<CS_MatchStartPanel>();
     }
 
     // /// ///////////////////////////////////////////////////////////////////
@@ -27,6 +32,10 @@ public class CS_CanvasController : SingleTon<CS_CanvasController>
 
     public CS_TouchPanel GetTouchPanel(){
         return touchPanelCS;
+    }
+
+    public CS_MatchStartPanel GetMatchStartPanel(){
+        return matchStartPanelCS;
     }
 }
 

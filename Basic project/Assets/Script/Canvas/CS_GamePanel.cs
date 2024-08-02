@@ -12,6 +12,19 @@ public class CS_GamePanel : MonoBehaviour, PanelSetting
     [SerializeField] private TMP_Text myScore;
     [SerializeField] private Sprite[] foodImg;
 
+    [Header("Debug/Test Log")]
+    [SerializeField] private TMP_Text hostText;
+    [SerializeField] private TMP_Text gameInfoText;
+
+    public void ChangeHostText(bool isHost){
+        if(isHost) hostText.text = "Host";
+        else hostText.text = "No Host";
+    }
+    
+    public void ChangeGameInfoText(float waitTime, int foodSpeed){
+        gameInfoText.text = "wait time : " + waitTime.ToString() + "\n" + "food speed : " + foodSpeed.ToString();
+    }
+
     public void ChangeCurrentCorrectFoodImg(int index){
         currentCorrectFoodImg.sprite = foodImg[index];
     }
