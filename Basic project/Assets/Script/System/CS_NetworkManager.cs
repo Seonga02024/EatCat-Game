@@ -57,16 +57,23 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
 
             // 방이 비어있는 경우
             if (room.PlayerCount < room.MaxPlayers) {
-                foundRoom = true;
-                PhotonNetwork.JoinRoom(room.Name);  // 빈 방에 입장
-                return;
+                if (room.CustomProperties.ContainsKey("gameStarted") && (bool)room.CustomProperties["gameStarted"] == false){
+                    foundRoom = true;
+                    PhotonNetwork.JoinRoom(room.Name);  // 빈 방에 입장
+                    return;
+                }
             }
         }
 
         // 빈 방이 없으면 새로운 방 생성
         if (!foundRoom) {
             string roomName = "Room_" + System.DateTime.Now.Ticks;  // 고유한 방 이름 생성
-            PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = 2 });
+            RoomOptions roomOptions = new RoomOptions();
+            roomOptions.MaxPlayers = 2;
+            roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "gameStarted", false } };
+            roomOptions.CustomRoomPropertiesForLobby = new string[] { "gameStarted" };
+            PhotonNetwork.CreateRoom(roomName, roomOptions);
+            //PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = 2 });
         }
     }
 
@@ -80,7 +87,7 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
         }
 
         // 방에 참여하게 되면 호출되는 함수
-        DisconnectPanel?.SetActive(false);
+        //DisconnectPanel?.SetActive(false);
         Spawn();
     }
 
@@ -88,7 +95,7 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Spawn");
         GameObject player1 = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-        RespawnPanel?.SetActive(false);
+        //RespawnPanel?.SetActive(false);
     }
 
     void Update()
@@ -103,8 +110,8 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("OnDisconnected");
         // 서버 연결이 끊어 졌을 때 호출되는 함수
-        DisconnectPanel?.SetActive(true);
-        RespawnPanel?.SetActive(false);
+        //DisconnectPanel?.SetActive(true);
+        //RespawnPanel?.SetActive(false);
     }
 
     private static CS_NetworkManager _instance;

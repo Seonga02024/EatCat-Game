@@ -11,7 +11,9 @@ public class CS_GamePanel : MonoBehaviour, PanelSetting
     [SerializeField] private TMP_Text otherScore;
     [SerializeField] private TMP_Text myScore;
     [SerializeField] private Sprite[] foodImg;
-
+    [SerializeField] private Button clickBtn;
+    private bool isEating = false;
+    
     [Header("Debug/Test Log")]
     [SerializeField] private TMP_Text hostText;
     [SerializeField] private TMP_Text gameInfoText;
@@ -52,5 +54,33 @@ public class CS_GamePanel : MonoBehaviour, PanelSetting
     public void Close()
     {
         mainPanel.SetActive(false);
+    }
+
+    void Start()
+    {
+        clickBtn.onClick.AddListener(OnClicked);
+    }
+
+    private void OnClicked()
+    {
+        if(CS_MTGameManager.Instance.IsMTGameStart){
+            if(isEating == false){
+                SendTouchData(true);
+            }
+        }
+    }
+
+    private void SendTouchData(bool isLeft){
+        // if(CS_GameManager.Instance.IsGameStart){
+
+        // }else{
+            CS_MTGameManager.Instance.CheckEatCorrrectFood();
+            isEating = true;
+            Invoke("WaitEating", 2);
+        //}
+    }
+
+    private void WaitEating(){
+        isEating = false;
     }
 }

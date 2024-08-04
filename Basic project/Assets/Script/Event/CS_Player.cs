@@ -25,8 +25,9 @@ public class CS_Player : MonoBehaviourPunCallbacks, IPunObservable
         RespawnPos1 = GameObject.Find("RespawnPos1");
         RespawnPos2 = GameObject.Find("RespawnPos2");
         nickNameTxt.text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
-        this.transform.parent = RespawnPos.transform;
-        this.transform.position = PV.IsMine ? RespawnPos1.transform.position : RespawnPos2.transform.position;
+        //this.transform.parent = RespawnPos.transform;
+        transform.SetParent(RespawnPos.transform, true); // SetParent 사용
+        transform.position = PV.IsMine ? RespawnPos1.transform.position : RespawnPos2.transform.position;
         if(PV.IsMine == false){
             Vector3 scale = image.rectTransform.localScale;
             scale.x = -1; // Flip the X axis

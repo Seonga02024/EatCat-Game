@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using TMPro;
 
 public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -26,17 +25,20 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
     private bool isMTGameStart = false;
     public bool IsMTGameStart { get { return isMTGameStart; } }
     private int gameTimer = 0;
-    private float currentWaitTime;
-    private float initialWaitTime = 4.0f;
-    private float minimumWaitTime = 1.0f;
-    private int nextStepWaitTime = 10;
-    private float decrementWaitTimeStep = 0.3f;
-    private int currentFoodMoveSpeed;
+    private float currentWaitTime = 0;
+    const float initialWaitTime = 4.0f;
+    const float minimumWaitTime = 1.0f;
+    const int nextStepWaitTime = 10;
+    const float decrementWaitTimeStep = 0.3f;
+    private int currentFoodMoveSpeed = 0;
     public int CurrentFoodMoveSpeed { get { return currentFoodMoveSpeed; } }
-    private int maxmumFoodMoveSpeed = 200;
-    private int initialFoodMoveSpeed = 100;
-    private int increaseFoodMoveSpeedStep = 10;
-    private int nextStepChangeCorrectFoodTime = 20;
+    const int maxmumFoodMoveSpeed = 200;
+    const int initialFoodMoveSpeed = 100;
+    const int increaseFoodMoveSpeedStep = 10;
+    const int nextStepChangeCorrectFoodTime = 20;
+    private List<GameObject> foodList = new List<GameObject>();
+    private List<CS_moveFood> foodCSList = new List<CS_moveFood>();
+    const int WinScore = 50;
 
     /* Network Values */
     public PhotonView PV;
@@ -67,6 +69,9 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         // }
         isHost = PhotonNetwork.IsMasterClient;
         CS_CanvasController.Instance.GetGamePanel().ChangeHostText(isHost);
+        CS_CanvasController.Instance.GetMatchStartPanel().OnWaitText(true);
+        CS_CanvasController.Instance.GetMatchStartPanel().Open();
+        CS_CanvasController.Instance.GetMatchPanel().Close();
 
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
@@ -81,11 +86,31 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             Debug.Log("Room is full. Starting game...");
             StartGame();
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable { { "gameStarted", true } };
+                PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+            }
+        }
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("OnPlayerLeftRoom");
+        if(isMTGameStart){
+            EndGame();
+            //PhotonNetwork.Disconnect();
         }
     }
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////
     /// game logic
+    
+    public void GameEnter(){
+        CS_CanvasController.Instance.GetGamePanel().Open();
+        CS_CanvasController.Instance.GetMatchPanel().Open();
+    }
 
     private void StartGame()
     {
@@ -94,6 +119,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         // 게임 시작 로직을 여기에 추가하세요.
         // 예를 들어, 게임 씬으로 전환하거나 게임 오브젝트를 활성화합니다.
         CS_CanvasController.Instance.GetGamePanel().Init();
+        CS_CanvasController.Instance.GetMatchStartPanel().OnWaitText(false);
         CS_CanvasController.Instance.GetMatchStartPanel().Open();
 
         ChangeCurrentCorrectFood();
@@ -144,7 +170,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
             if(isHost){
                 int randomNum = Random.Range(0, currentFoodMaxRangeNum);
                 PV.RPC("CurrentFoodIndex", RpcTarget.All, randomNum);
-                Debug.Log("ReleaseAndAddFood");
+                //Debug.Log("ReleaseAndAddFood");
             }
             yield return new WaitForSeconds(currentWaitTime);
         }
@@ -185,6 +211,8 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         //GameObject food = Instantiate(foodPrefab[index], foodStartPoint);
         if(isHost){
             GameObject food = PhotonNetwork.Instantiate(foodPrefab[index].name, foodStartPoint.position, Quaternion.identity, 0);
+            foodList.Add(food);
+            foodCSList.Add(food.GetComponent<CS_moveFood>());
         }
     }
 
@@ -247,18 +275,60 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         currentMyScore = score;
         CS_CanvasController.Instance.GetGamePanel().ChangeMyScoreText(currentMyScore);
+        if(currentMyScore >= WinScore){
+            EndGame();
+        }
     }
 
     public void UpdateOtherScore(int score)
     {
         currentOtherScore = score;
         CS_CanvasController.Instance.GetGamePanel().ChangeOtherScoreText(currentOtherScore);
+        if(currentOtherScore >= WinScore){
+            EndGame();
+        }
     }
 
     public void UpdateCurrentCorrectFoodImg(int index){
         currentCorrectFoodIndex = index;
         CS_CanvasController.Instance.GetGamePanel().ChangeCurrentCorrectFoodImg(currentCorrectFoodIndex);
     }   
+
+    public void RemoveFood(GameObject food)
+    {
+        if (foodList.Contains(food))
+        {
+            foodList.Remove(food);
+            Debug.Log("Removed Food: " + food.name);
+        }
+    }
+
+    private void EndGame()
+    {
+        isMTGameStart = false;
+        CS_CanvasController.Instance.GetGameFinishPanel().Setting(currentMyScore, currentOtherScore, 1000);
+        CS_CanvasController.Instance.GetGameFinishPanel().Open();
+    }
+
+    public void GameExit()
+    {
+        CS_CanvasController.Instance.GetGamePanel().Close();
+        CS_CanvasController.Instance.GetMatchPanel().Close();
+        CS_CanvasController.Instance.GetMatchStartPanel().Close();
+        PhotonNetwork.Disconnect();
+
+        // reset
+        currentCorrectFoodIndex = 0;
+        currentMyScore = 0;
+        currentOtherScore = 0;
+        isMTGameStart = false;
+        gameTimer = 0;
+        currentWaitTime = initialWaitTime;
+        currentFoodMoveSpeed = initialFoodMoveSpeed;
+        isHost = false;
+
+        foodCSList.ForEach(foodCS => foodCS.RemoveObject());
+    }
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////
     /// sever

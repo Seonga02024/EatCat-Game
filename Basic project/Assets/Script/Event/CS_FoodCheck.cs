@@ -6,8 +6,8 @@ using Photon.Realtime;
 
 public class CS_FoodCheck : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private Vector2 myCatPos;
-    [SerializeField] private Vector2 otherCatPas;
+    [SerializeField] private Transform myCatPos;
+    [SerializeField] private Transform otherCatPas;
     private GameObject currentCollFood;
     private int currentFoodIndex = -1;
     public int CurrentFoodIndex { get { return currentFoodIndex; } }
@@ -19,9 +19,9 @@ public class CS_FoodCheck : MonoBehaviourPunCallbacks
         if(currentCollFood != null){
             //Debug.Log("change MoveFoodToCat");
             CS_moveFood moveFoodCS = currentCollFood.GetComponent<CS_moveFood>();
-            moveFoodCS.IsEat = true;
-            if(isMyEat) moveFoodCS.TargetPosition = myCatPos;
-            else moveFoodCS.TargetPosition = otherCatPas;
+            moveFoodCS.ChangeIsEating(true);
+            if(isMyEat) moveFoodCS.TargetPosition = new Vector2(myCatPos.position.x, myCatPos.position.y);
+            else moveFoodCS.TargetPosition = new Vector2(otherCatPas.position.x, otherCatPas.position.y);
             iscurrentGet = true;
         }
     }

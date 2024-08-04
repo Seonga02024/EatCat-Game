@@ -48,7 +48,8 @@ public class CS_mainMenuPanel : MonoBehaviour, PanelSetting
     private void OnMTModeClicked()
     {
         Debug.Log("Multiplayer Mode Button Clicked");
-        // Multiplayer mode 시작 로직 추가
+        // Multiplayer mode 시작 로직 추가\
+        CS_MTGameManager.Instance.GameEnter();
     }
 
     private void OnDrawStoreClicked()
