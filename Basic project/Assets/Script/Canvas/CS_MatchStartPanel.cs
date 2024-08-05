@@ -19,6 +19,7 @@ public class CS_MatchStartPanel : MonoBehaviour, PanelSetting
 
     private void OnBackBtnClicked()
     {
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
         CS_MTGameManager.Instance.GameExit();
         Close();
     }

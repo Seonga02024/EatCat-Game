@@ -14,7 +14,7 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] public TMP_Text testText;
 
     void Awake(){
-        Screen.SetResolution(1080, 1920, false);
+        //Screen.SetResolution(1080, 1920, false);
         // 아래 두 개를 설정해주면 동기화가 더 빨리 된다고 함
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
@@ -34,6 +34,7 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
     public void Connet() => PhotonNetwork.ConnectUsingSettings(); // 서버 바로 연결 시도
 
     public override void OnConnectedToMaster(){
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
         Debug.Log("OnConnectedToMaster");
         // 버튼을 누르면 서버 연결해주는 함수
         // player 세팅 이후 Room 을 참여하거나 만들기
@@ -94,7 +95,11 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
     public void Spawn()
     {
         Debug.Log("Spawn");
-        GameObject player1 = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        if(PhotonNetwork.IsMasterClient){
+            GameObject player = PhotonNetwork.Instantiate("Player1", Vector3.zero, Quaternion.identity);
+        }else{
+            GameObject player = PhotonNetwork.Instantiate("Player2", Vector3.zero, Quaternion.identity);
+        }
         //RespawnPanel?.SetActive(false);
     }
 

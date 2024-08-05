@@ -5,15 +5,20 @@ using UnityEngine.Audio;
 
 public enum BGM
 {
-    Main_Community = 0,
-    Main_Seagrass = 1
+    Main_BGM = 0,
+    SoloGame_BGM = 1,
+    MTGame_BGM = 2
 }
 
 public enum SFX
 {
-    TrashClick = 0,
-    TrashSucess = 1,
-    CoinGet = 2
+    ChangeFood_SFX = 0,
+    Click_SFX = 1,
+    CountDown_SFX = 2,
+    Eat_SFX = 3,
+    GetPoint_SFX = 4,
+    LosePoint_SFX = 5,
+    WinResult_SFX = 6
 }
 
 public class CS_GameSoundManager : SingleTon<CS_GameSoundManager>
@@ -31,7 +36,7 @@ public class CS_GameSoundManager : SingleTon<CS_GameSoundManager>
     private Coroutine fadeOutCoroutine;
     private bool isPause = false;
     public bool IsPause { get { return isPause; } }
-    private BGM bgmCur = BGM.Main_Community;
+    private BGM bgmCur = BGM.Main_BGM;
     private float audioVolume;
     private float audioVolumeCur = 0;
 
@@ -119,5 +124,6 @@ public class CS_GameSoundManager : SingleTon<CS_GameSoundManager>
     {
         audioSource = GetComponent<AudioSource>();
         audioVolume = audioSource.volume;
+        BgmPlay();
     }
 }

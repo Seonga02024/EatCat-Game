@@ -21,7 +21,13 @@ public class CS_GameFinishPanel : MonoBehaviour, PanelSetting
     {
         myScore.text = myscore.ToString();
         otherScore.text = otherscore.ToString();
-        coin.text = coinNum.ToString();
+        if(myscore > otherscore){
+            CS_GameSoundManager.Instance.SfxPlay(SFX.WinResult_SFX);
+            coin.text = coinNum.ToString();
+        }else{
+            CS_GameSoundManager.Instance.SfxPlay(SFX.WinResult_SFX);
+            coin.text = "0";
+        }
     }
 
     public void Init()
@@ -33,6 +39,9 @@ public class CS_GameFinishPanel : MonoBehaviour, PanelSetting
     {
         Debug.Log("Back Button Clicked");
         CS_MTGameManager.Instance.GameExit();
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
+        CS_GameSoundManager.Instance.BgmSet(BGM.Main_BGM);
+        CS_GameSoundManager.Instance.BgmPlay();
         Close();
     }
 

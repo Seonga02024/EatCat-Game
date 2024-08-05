@@ -42,6 +42,7 @@ public class CS_mainMenuPanel : MonoBehaviour, PanelSetting
     private void OnSoloModeClicked()
     {
         Debug.Log("Solo Mode Button Clicked");
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
         // Solo mode 시작 로직 추가
     }
 
@@ -50,29 +51,36 @@ public class CS_mainMenuPanel : MonoBehaviour, PanelSetting
         Debug.Log("Multiplayer Mode Button Clicked");
         // Multiplayer mode 시작 로직 추가\
         CS_MTGameManager.Instance.GameEnter();
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
+        CS_GameSoundManager.Instance.BgmSet(BGM.MTGame_BGM);
+        CS_GameSoundManager.Instance.BgmPlay();
     }
 
     private void OnDrawStoreClicked()
     {
         Debug.Log("Draw Store Button Clicked");
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
         // Draw store 로직 추가
     }
 
     private void OnStoreClicked()
     {
         Debug.Log("Store Button Clicked");
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
         // Store 로직 추가
     }
 
     private void OnDecorateClicked()
     {
         Debug.Log("Decorate Button Clicked");
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
         // Decorate 로직 추가
     }
 
     private void OnSettingClicked()
     {
         Debug.Log("Setting Button Clicked");
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
         // Setting 로직 추가
     }
 }

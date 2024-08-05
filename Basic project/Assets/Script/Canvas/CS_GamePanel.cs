@@ -13,6 +13,8 @@ public class CS_GamePanel : MonoBehaviour, PanelSetting
     [SerializeField] private Sprite[] foodImg;
     [SerializeField] private Button clickBtn;
     private bool isEating = false;
+    private int currentFoodImgIndex = -1;
+    private int currentMyScore = 0;
     
     [Header("Debug/Test Log")]
     [SerializeField] private TMP_Text hostText;
@@ -29,10 +31,22 @@ public class CS_GamePanel : MonoBehaviour, PanelSetting
 
     public void ChangeCurrentCorrectFoodImg(int index){
         currentCorrectFoodImg.sprite = foodImg[index];
+        if(currentFoodImgIndex != index){
+            CS_GameSoundManager.Instance.SfxPlay(SFX.ChangeFood_SFX);
+            currentFoodImgIndex = index;
+        }
     }
     
     public void ChangeMyScoreText(int score){
         myScore.text = score.ToString();
+        if(currentMyScore != score){
+            if(currentMyScore < score){
+                CS_GameSoundManager.Instance.SfxPlay(SFX.GetPoint_SFX);
+            }else{
+                CS_GameSoundManager.Instance.SfxPlay(SFX.LosePoint_SFX);
+            }
+            currentMyScore = score;
+        }
     }
 
     public void ChangeOtherScoreText(int score){
@@ -63,6 +77,7 @@ public class CS_GamePanel : MonoBehaviour, PanelSetting
 
     private void OnClicked()
     {
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Eat_SFX);
         if(CS_MTGameManager.Instance.IsMTGameStart){
             if(isEating == false){
                 SendTouchData(true);

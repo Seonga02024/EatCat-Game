@@ -17,7 +17,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private GameObject[] foodPrefab;
 
     /* Game Values */
-    private int currentFoodMaxRangeNum = 2;
+    private int currentFoodMaxRangeNum = 4;
     private int currentCorrectFoodIndex = 0;
     public int GetCurrentCorrectFoodIndex() { return currentCorrectFoodIndex; }
     private int currentMyScore = 0;
@@ -144,6 +144,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator WaitStartGame()
     {
+        CS_GameSoundManager.Instance.SfxPlay(SFX.CountDown_SFX);
         int waitTime = 5;
         while (waitTime > 0)
         {
@@ -275,7 +276,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         currentMyScore = score;
         CS_CanvasController.Instance.GetGamePanel().ChangeMyScoreText(currentMyScore);
-        if(currentMyScore >= WinScore){
+        if(currentMyScore >= WinScore && isMTGameStart){
             EndGame();
         }
     }
@@ -284,7 +285,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         currentOtherScore = score;
         CS_CanvasController.Instance.GetGamePanel().ChangeOtherScoreText(currentOtherScore);
-        if(currentOtherScore >= WinScore){
+        if(currentOtherScore >= WinScore && isMTGameStart){
             EndGame();
         }
     }
