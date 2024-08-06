@@ -25,7 +25,7 @@ public class CS_GameFinishPanel : MonoBehaviour, PanelSetting
             CS_GameSoundManager.Instance.SfxPlay(SFX.WinResult_SFX);
             coin.text = coinNum.ToString();
         }else{
-            CS_GameSoundManager.Instance.SfxPlay(SFX.WinResult_SFX);
+            CS_GameSoundManager.Instance.SfxPlay(SFX.FailResult_SFX);
             coin.text = "0";
         }
     }

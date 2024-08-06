@@ -39,6 +39,7 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
         // 버튼을 누르면 서버 연결해주는 함수
         // player 세팅 이후 Room 을 참여하거나 만들기
         PhotonNetwork.LocalPlayer.NickName = NickNameInput.text;
+        if(NickNameInput.text == "") PhotonNetwork.LocalPlayer.NickName = "user";
         //PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 3 }, null);
         PhotonNetwork.JoinLobby(); // 방 목록을 가져와 방 이름을 확인
         //PhotonNetwork.JoinRandomRoom(); // 랜덤으로 방에 참여
@@ -74,7 +75,6 @@ public class CS_NetworkManager : MonoBehaviourPunCallbacks
             roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "gameStarted", false } };
             roomOptions.CustomRoomPropertiesForLobby = new string[] { "gameStarted" };
             PhotonNetwork.CreateRoom(roomName, roomOptions);
-            //PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = 2 });
         }
     }
 

@@ -38,7 +38,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
     const int nextStepChangeCorrectFoodTime = 20;
     private List<GameObject> foodList = new List<GameObject>();
     private List<CS_moveFood> foodCSList = new List<CS_moveFood>();
-    const int WinScore = 50;
+    const int WinScore = 100;
 
     /* Network Values */
     public PhotonView PV;

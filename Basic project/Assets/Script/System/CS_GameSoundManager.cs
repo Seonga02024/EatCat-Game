@@ -18,7 +18,8 @@ public enum SFX
     Eat_SFX = 3,
     GetPoint_SFX = 4,
     LosePoint_SFX = 5,
-    WinResult_SFX = 6
+    WinResult_SFX = 6,
+    FailResult_SFX = 7
 }
 
 public class CS_GameSoundManager : SingleTon<CS_GameSoundManager>
