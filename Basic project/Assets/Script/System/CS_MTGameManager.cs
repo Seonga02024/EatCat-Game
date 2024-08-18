@@ -69,7 +69,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         // }
         isHost = PhotonNetwork.IsMasterClient;
         CS_CanvasController.Instance.GetGamePanel().ChangeHostText(isHost);
-        CS_CanvasController.Instance.GetMatchStartPanel().OnWaitText(true);
+        CS_CanvasController.Instance.GetMatchStartPanel().OnWaitText(true, true);
         CS_CanvasController.Instance.GetMatchStartPanel().Open();
         CS_CanvasController.Instance.GetMatchPanel().Close();
 
@@ -119,7 +119,7 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         // 게임 시작 로직을 여기에 추가하세요.
         // 예를 들어, 게임 씬으로 전환하거나 게임 오브젝트를 활성화합니다.
         CS_CanvasController.Instance.GetGamePanel().Init();
-        CS_CanvasController.Instance.GetMatchStartPanel().OnWaitText(false);
+        CS_CanvasController.Instance.GetMatchStartPanel().OnWaitText(false, true);
         CS_CanvasController.Instance.GetMatchStartPanel().Open();
 
         ChangeCurrentCorrectFood();
@@ -309,6 +309,10 @@ public class CS_MTGameManager : MonoBehaviourPunCallbacks, IPunObservable
         isMTGameStart = false;
         CS_CanvasController.Instance.GetGameFinishPanel().Setting(currentMyScore, currentOtherScore, 1000);
         CS_CanvasController.Instance.GetGameFinishPanel().Open();
+
+        if(gameTimeCoroutine != null) StopCoroutine(gameTimeCoroutine);
+        if(foodCreteCoroutine != null) StopCoroutine(foodCreteCoroutine);
+        if(waitStartCoroutine != null) StopCoroutine(waitStartCoroutine);
     }
 
     public void GameExit()

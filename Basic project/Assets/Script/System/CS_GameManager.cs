@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class CS_GameManager : MonoBehaviour
 {
+    [Header("Game Object")]
+    [SerializeField] private Transform foodStartPoint;
+    [SerializeField] private Transform foodEndPoint;
+    [SerializeField] private CS_FoodCheck foodCheckCS;
+    private CS_Player myPlayerCS;
+    public CS_Player MyPlayerCS { set { myPlayerCS = value; } }
+
+    [Header("food Prefab")]
+    [SerializeField] private GameObject[] foodPrefab;
+
     [Header("food Prefab")]
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject mtGamePanel;

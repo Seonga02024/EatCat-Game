@@ -24,6 +24,14 @@ public class CS_CanvasController : SingleTon<CS_CanvasController>
     public GameObject gameFinishPanel;
     private CS_GameFinishPanel gameFinishPanelCS;
 
+    [SerializeField]
+    public GameObject soloGamePanel;
+    private CS_SoloGamePanel soloGamePanelCS;
+
+    [SerializeField]
+    public GameObject soloGameFinishPanel;
+    private CS_SoloGameFinishPanel soloGameFinishPanelCS;
+
     void Start()
     {
         gamePanelCS = gamePanel.GetComponent<CS_GamePanel>();
@@ -31,6 +39,8 @@ public class CS_CanvasController : SingleTon<CS_CanvasController>
         matchStartPanelCS = matchStartPanel.GetComponent<CS_MatchStartPanel>();
         gameFinishPanelCS = gameFinishPanel.GetComponent<CS_GameFinishPanel>();
         matchPanelCS = matchPanel.GetComponent<CS_MatchPanel>();
+        soloGamePanelCS = soloGamePanel.GetComponent<CS_SoloGamePanel>();
+        soloGameFinishPanelCS = soloGameFinishPanel.GetComponent<CS_SoloGameFinishPanel>();
     }
 
     // /// ///////////////////////////////////////////////////////////////////
@@ -54,6 +64,14 @@ public class CS_CanvasController : SingleTon<CS_CanvasController>
 
     public CS_MatchPanel GetMatchPanel(){
         return matchPanelCS;
+    }
+
+    public CS_SoloGamePanel GetSoloGamePanel(){
+        return soloGamePanelCS;
+    }
+
+    public CS_SoloGameFinishPanel GetSoloGameFinishPanel(){
+        return soloGameFinishPanelCS;
     }
 }
 

@@ -27,20 +27,26 @@ public class CS_moveFood : MonoBehaviour, IPunObservable
         transform.SetParent(GameObject.Find("FoodStartPoint").transform, true); // SetParent 사용
         endPoint = GameObject.Find("FoodEndPoint").transform;
         isMove = true;
-        ChangeMoveSpeed(CS_MTGameManager.Instance.CurrentFoodMoveSpeed);
+        if(CS_MTGameManager.Instance.IsMTGameStart) ChangeMoveSpeed(CS_MTGameManager.Instance.CurrentFoodMoveSpeed);
+        else if(CS_SoloGameManager.Instance.IsSoloGameStart) ChangeMoveSpeed(CS_SoloGameManager.Instance.CurrentFoodMoveSpeed);
     }
 
     void Update()
     {
-        if(CS_MTGameManager.Instance.IsMTGameStart){
+        if(CS_MTGameManager.Instance.IsMTGameStart || CS_SoloGameManager.Instance.IsSoloGameStart){
             // isMove가 true일 때 y축 -방향으로 이동
             if (isMove && isEat == false)
             {
-                if (CS_MTGameManager.Instance.IsHost)
-                {   
+                if(CS_MTGameManager.Instance.IsMTGameStart){
+                    if (CS_MTGameManager.Instance.IsHost)
+                    {   
+                        transform.Translate(Vector3.down * speed * Time.deltaTime);
+                    }else{
+                        transform.localPosition = Vector3.Lerp(transform.localPosition, networkedPosition, Time.deltaTime * speed);
+                    }
+                }
+                else if(CS_SoloGameManager.Instance.IsSoloGameStart){
                     transform.Translate(Vector3.down * speed * Time.deltaTime);
-                }else{
-                    transform.localPosition = Vector3.Lerp(transform.localPosition, networkedPosition, Time.deltaTime * speed);
                 }
             }
 
@@ -72,13 +78,23 @@ public class CS_moveFood : MonoBehaviour, IPunObservable
     public void ChangeIsEating(bool isActive){
         isEat = isActive;
         if(isEat){
-            Invoke("RemoveObject", 1.3f);
+            if(CS_MTGameManager.Instance.IsMTGameStart){
+                Invoke("RemoveObject", 1.3f);
+            }
+
+            if(CS_SoloGameManager.Instance.IsSoloGameStart){
+                Invoke("RemoveObject", 2f);
+            }
         }
     }
 
     public void RemoveObject(){
         if (CS_MTGameManager.Instance.IsHost){
             PhotonNetwork.Destroy(gameObject);
+        }
+        
+        if(CS_SoloGameManager.Instance.IsSoloGameStart){
+            Destroy(gameObject);
         }
     }
 
@@ -106,8 +122,14 @@ public class CS_moveFood : MonoBehaviour, IPunObservable
         }
     }
 
-    // private void OnDestroy()
-    // {
-    //     CS_MTGameManager.Instance.RemoveFood(gameObject);
-    // }
+    private void OnDestroy()
+    {
+        if(CS_MTGameManager.Instance.IsMTGameStart){
+            CS_MTGameManager.Instance.RemoveFood(gameObject);
+        }
+
+        if(CS_SoloGameManager.Instance.IsSoloGameStart){
+            CS_SoloGameManager.Instance.RemoveFood(gameObject);
+        }
+    }
 }

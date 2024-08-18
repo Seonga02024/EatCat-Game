@@ -19,10 +19,22 @@ public class CS_FoodCheck : MonoBehaviourPunCallbacks
         if(currentCollFood != null){
             //Debug.Log("change MoveFoodToCat");
             CS_moveFood moveFoodCS = currentCollFood.GetComponent<CS_moveFood>();
-            moveFoodCS.ChangeIsEating(true);
             if(isMyEat) moveFoodCS.TargetPosition = new Vector2(myCatPos.position.x, myCatPos.position.y);
             else moveFoodCS.TargetPosition = new Vector2(otherCatPas.position.x, otherCatPas.position.y);
             iscurrentGet = true;
+            moveFoodCS.ChangeIsEating(true);
+        }
+    }
+
+    public void MoveFoodToCat(bool isMyEat, bool isLeft){
+        //Debug.Log("MoveFoodToCat");
+        if(currentCollFood != null){
+            //Debug.Log("change MoveFoodToCat");
+            CS_moveFood moveFoodCS = currentCollFood.GetComponent<CS_moveFood>();
+            if(isLeft == false) moveFoodCS.TargetPosition = new Vector2(myCatPos.position.x, myCatPos.position.y);
+            else moveFoodCS.TargetPosition = new Vector2(otherCatPas.position.x, otherCatPas.position.y);
+            iscurrentGet = true;
+            moveFoodCS.ChangeIsEating(true);
         }
     }
 

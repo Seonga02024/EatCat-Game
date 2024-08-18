@@ -43,7 +43,9 @@ public class CS_mainMenuPanel : MonoBehaviour, PanelSetting
     {
         Debug.Log("Solo Mode Button Clicked");
         CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
-        // Solo mode 시작 로직 추가
+        CS_GameSoundManager.Instance.BgmSet(BGM.SoloGame_BGM);
+        CS_GameSoundManager.Instance.BgmPlay();
+        CS_SoloGameManager.Instance.GameEnter();
     }
 
     private void OnMTModeClicked()
