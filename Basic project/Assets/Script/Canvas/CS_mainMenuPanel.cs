@@ -13,6 +13,8 @@ public class CS_mainMenuPanel : MonoBehaviour, PanelSetting
     [SerializeField] private Button storeBtn;
     [SerializeField] private Button decorateBtn;
     [SerializeField] private Button settingBtn;
+    [SerializeField] private Button infoBackBtn;
+    [SerializeField] private GameObject info;
 
     void Start()
     {
@@ -27,6 +29,7 @@ public class CS_mainMenuPanel : MonoBehaviour, PanelSetting
         storeBtn.onClick.AddListener(OnStoreClicked);
         decorateBtn.onClick.AddListener(OnDecorateClicked);
         settingBtn.onClick.AddListener(OnSettingClicked);
+        infoBackBtn.onClick.AddListener(infoBackClicked);
     }
 
     public void Open()
@@ -83,6 +86,13 @@ public class CS_mainMenuPanel : MonoBehaviour, PanelSetting
     {
         Debug.Log("Setting Button Clicked");
         CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
+        info.SetActive(true);
         // Setting 로직 추가
+    }
+
+    private void infoBackClicked()
+    {
+        info.SetActive(false);
+        CS_GameSoundManager.Instance.SfxPlay(SFX.Click_SFX);
     }
 }

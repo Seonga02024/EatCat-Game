@@ -27,14 +27,14 @@ public class CS_SoloGameManager : SingleTon<CS_SoloGameManager>
     public bool IsSoloGameStart { get { return isSoloGameStart; } }
     private int gameTimer = 0;
     private float currentWaitTime = 0;
-    const float initialWaitTime = 4.0f;
+    const float initialWaitTime = 2.0f;
     const float minimumWaitTime = 1.0f;
     const int nextStepWaitTime = 10;
     const float decrementWaitTimeStep = 0.3f;
     private int currentFoodMoveSpeed = 0;
     public int CurrentFoodMoveSpeed { get { return currentFoodMoveSpeed; } }
     const int maxmumFoodMoveSpeed = 200;
-    const int initialFoodMoveSpeed = 120;
+    const int initialFoodMoveSpeed = 150;
     const int increaseFoodMoveSpeedStep = 10;
     const int nextStepChangeCorrectFoodTime = 20;
     private List<GameObject> foodList = new List<GameObject>();

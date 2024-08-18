@@ -83,7 +83,7 @@ public class CS_moveFood : MonoBehaviour, IPunObservable
             }
 
             if(CS_SoloGameManager.Instance.IsSoloGameStart){
-                Invoke("RemoveObject", 2f);
+                Invoke("RemoveObject", 1.3f);
             }
         }
     }

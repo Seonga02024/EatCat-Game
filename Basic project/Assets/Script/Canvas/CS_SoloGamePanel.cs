@@ -116,7 +116,7 @@ public class CS_SoloGamePanel : MonoBehaviour, PanelSetting
     private void SendTouchData(bool isLeft){
         CS_SoloGameManager.Instance.CheckEatCorrrectFood(isLeft);
         isEating = true;
-        Invoke("WaitEating", 2);
+        Invoke("WaitEating", 1);
     }
 
     private void WaitEating(){

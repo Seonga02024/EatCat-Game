@@ -56,14 +56,17 @@ public class CS_TouchPanel : MonoBehaviour
     private void SendTouchData(bool isLeft){
         if(CS_MTGameManager.Instance.IsMTGameStart){
             CS_MTGameManager.Instance.CheckEatCorrrectFood();
+
+            isEating = true;
+            Invoke("WaitEating", 2);
         }
 
         if(CS_SoloGameManager.Instance.IsSoloGameStart){
             CS_SoloGameManager.Instance.CheckEatCorrrectFood(isLeft);
-        }
 
-        isEating = true;
-        Invoke("WaitEating", 2);
+            //isEating = true;
+            //Invoke("WaitEating", 1);
+        }
     }
 
     private void WaitEating(){
