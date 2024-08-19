@@ -18,12 +18,14 @@ public class CS_SoloGameFinishPanel : MonoBehaviour
         Init();
     }
 
-    public void Setting(int myscore, int myhighscore, int coinNum)
+    public void Setting(int myscore, int coinNum)
     {
-        myScore.text = myscore.ToString();
-        myHighScore.text = myhighscore.ToString();
+        CS_SaveLoadManager.Instance.SetHighScore(myscore);
         CS_GameSoundManager.Instance.SfxPlay(SFX.WinResult_SFX);
         coin.text = coinNum.ToString();
+        myHighScore.text = "내 최고 점수 : " + CS_SaveLoadManager.Instance.GetHighScore().ToString();
+        myScore.text = myscore.ToString();
+        CS_SaveLoadManager.Instance.SaveData();
     }
 
     public void Init()

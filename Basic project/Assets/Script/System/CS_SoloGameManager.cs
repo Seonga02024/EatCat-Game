@@ -208,14 +208,14 @@ public class CS_SoloGameManager : SingleTon<CS_SoloGameManager>
         if (foodList.Contains(food))
         {
             foodList.Remove(food);
-            Debug.Log("Removed Food: " + food.name);
+            //Debug.Log("Removed Food: " + food.name);
         }
     }
 
     private void EndGame()
     {
         isSoloGameStart = false;
-        CS_CanvasController.Instance.GetSoloGameFinishPanel().Setting(currentMyScore, 10000, 1000);
+        CS_CanvasController.Instance.GetSoloGameFinishPanel().Setting(currentMyScore, 1000);
         CS_CanvasController.Instance.GetSoloGameFinishPanel().Open();
 
         if(gameTimeCoroutine != null) StopCoroutine(gameTimeCoroutine);
